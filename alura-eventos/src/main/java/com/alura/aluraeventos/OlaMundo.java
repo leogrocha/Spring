@@ -8,7 +8,7 @@ public class OlaMundo {
     
     @GetMapping("/oi")
     public String digaOla() {
-        return "Olá mundo";
+        return "Hello Word";
     }
 
 }
