@@ -37,7 +37,8 @@ public class ContaCorrenteController {
                 .buscar(banco, agencia, numero)
                 .orElse(new ContaCorrente());
 
-        return String.format("Banco: %s, Agência: %s, Conta: %s. Saldo: %s", banco, agencia, numero, contaCorrente.lerSaldo());
+        return String.format("Banco: %s, Agência: %s, Conta: %s. Saldo: %s", banco, agencia, numero,
+                contaCorrente.lerSaldo());
     }
 
     @PostMapping
@@ -54,13 +55,23 @@ public class ContaCorrenteController {
 
     @DeleteMapping
     public String fecharConta(@RequestBody ContaCorrente contaCorrente) {
+        
+        Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(contaCorrente.getBanco(),
+        contaCorrente.getAgencia(),
+        contaCorrente.getNumero());
+        if (opContaCorrente.isEmpty()) {
+            return "Conta corrente não existe";
+        }
+        
+        repositorioContasCorrente.fechar(contaCorrente);
         return "Conta fechada com sucesso";
     }
 
     @PutMapping
     public ResponseEntity<String> movimentarConta(@RequestBody MovimentacaoDeConta movimentacaoDeConta) {
-        
-        Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(movimentacaoDeConta.getBanco(), movimentacaoDeConta.getAgencia(),
+
+        Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(movimentacaoDeConta.getBanco(),
+                movimentacaoDeConta.getAgencia(),
                 movimentacaoDeConta.getNumero());
         if (opContaCorrente.isEmpty()) {
             return ResponseEntity.badRequest().body("Conta corrente não existe");
@@ -68,8 +79,8 @@ public class ContaCorrenteController {
             ContaCorrente contaCorrente = opContaCorrente.get();
             movimentacaoDeConta.executarEm(contaCorrente);
             repositorioContasCorrente.salvar(contaCorrente);
-            return ResponseEntity.ok("Movimentação realizada com sucesso.");
+            return ResponseEntity.ok("Movimentação realizada com sucesso. " + contaCorrente.lerSaldo());
         }
-        
+
     }
 }

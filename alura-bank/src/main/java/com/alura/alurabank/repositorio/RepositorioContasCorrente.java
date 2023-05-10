@@ -27,4 +27,8 @@ public class RepositorioContasCorrente {
                 .findFirst();
     }
 
+    public void fechar(ContaCorrente contaCorrente) {
+        contas.remove(contaCorrente);
+    }
+
 }
