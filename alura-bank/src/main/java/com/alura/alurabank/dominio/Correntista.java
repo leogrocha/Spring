@@ -1,6 +1,6 @@
 package com.alura.alurabank.dominio;
 
-import java.time.LocalDate;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -12,11 +12,16 @@ public class Correntista {
     @JsonProperty
     private String nome;
 
-    private LocalDate dataDeEntrada = LocalDate.now();
+    // private LocalDate dataDeEntrada = LocalDate.now();
 
-    public LocalDate getDataDeEntrada() {
-        return dataDeEntrada;
+    public Correntista(String cpf, String nome) {
+        this.cpf = cpf;
+        this.nome = nome;
     }
+
+    // public LocalDate getDataDeEntrada() {
+    //     return dataDeEntrada;
+    // }
 
     // public String getCpf() {
     //     return cpf;

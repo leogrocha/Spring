@@ -15,10 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+// import com.alura.alurabank.controller.form.ContaCorrenteForm;
+import com.alura.alurabank.controller.form.CorrentistaForm;
 import com.alura.alurabank.dominio.ContaCorrente;
 import com.alura.alurabank.dominio.Correntista;
 import com.alura.alurabank.dominio.MovimentacaoDeConta;
 import com.alura.alurabank.repositorio.RepositorioContasCorrente;
+// import com.googlecode.jmapper.JMapper;
 
 @RestController
 @RequestMapping("/contas")
@@ -26,6 +29,9 @@ public class ContaCorrenteController {
 
     @Autowired
     private RepositorioContasCorrente repositorioContasCorrente;
+
+    // @Autowired
+    // private JMapper<ContaCorrente, ContaCorrenteForm> contaCorrenteMapper;
 
     @GetMapping
     public String consultarSaldo(
@@ -42,7 +48,8 @@ public class ContaCorrenteController {
     }
 
     @PostMapping
-    public ResponseEntity<ContaCorrente> criarNovaConta(@RequestBody Correntista correntista) {
+    public ResponseEntity<ContaCorrente> criarNovaConta(@RequestBody CorrentistaForm correntistaForm) {
+        Correntista correntista = correntistaForm.toCorrentista();
         String banco = "333";
         String agencia = "44444";
         String numero = Integer.toString(new Random().nextInt(Integer.MAX_VALUE));
@@ -62,6 +69,8 @@ public class ContaCorrenteController {
         if (opContaCorrente.isEmpty()) {
             return "Conta corrente não existe";
         }
+
+        // ContaCorrente conta = contaCorrenteMapper.getDestination(contaCorrenteForm);
         
         repositorioContasCorrente.fechar(contaCorrente);
         return "Conta fechada com sucesso";
