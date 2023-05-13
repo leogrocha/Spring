@@ -4,8 +4,10 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Getter;
 public class MovimentacaoDeConta {
     
+    @Getter
     @JsonProperty
     private ContaCorrente conta;
 
@@ -14,18 +16,6 @@ public class MovimentacaoDeConta {
     
     @JsonProperty
     private int operacao;
-
-    public String getBanco() {
-        return conta.getBanco();
-    }
-
-    public String getAgencia() {
-        return conta.getAgencia();
-    }
-
-    public String getNumero() {
-        return conta.getNumero();
-    }
 
     public int obterNumeroConta() {
         return conta.obterNumeroConta();

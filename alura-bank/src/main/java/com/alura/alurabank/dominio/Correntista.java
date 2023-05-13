@@ -19,16 +19,4 @@ public class Correntista {
         this.nome = nome;
     }
 
-    // public LocalDate getDataDeEntrada() {
-    //     return dataDeEntrada;
-    // }
-
-    // public String getCpf() {
-    //     return cpf;
-    // }
-
-    // public String getNome() {
-    //     return nome;
-    // }
-
 }

@@ -46,7 +46,6 @@ public class ContaCorrenteController {
                 .buscar(banco, agencia, numero)
                 .orElse(new ContaCorrente());
 
-                System.out.println("SALDO: " + contaCorrente.lerSaldo());
         return String.format("Banco: %s, Agência: %s, Conta: %s Saldo: %s", banco, agencia, numero,
                 contaCorrente.lerSaldo());
     }
@@ -83,9 +82,12 @@ public class ContaCorrenteController {
     @PutMapping
     public ResponseEntity<String> movimentarConta(@RequestBody MovimentacaoDeConta movimentacaoDeConta) {
 
-        Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(movimentacaoDeConta.getBanco(),
-                movimentacaoDeConta.getAgencia(),
-                movimentacaoDeConta.getNumero());
+        System.out.println(movimentacaoDeConta);
+
+        Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(
+                movimentacaoDeConta.getConta().getBanco(),
+                movimentacaoDeConta.getConta().getAgencia(),
+                movimentacaoDeConta.getConta().getNumero());
         if (opContaCorrente.isEmpty()) {
             return ResponseEntity.badRequest().body("Conta corrente não existe");
         } else {
