@@ -3,7 +3,7 @@ package com.alura.alurabank.controller;
 import java.util.Optional;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,11 +23,14 @@ import com.alura.alurabank.dominio.MovimentacaoDeConta;
 import com.alura.alurabank.repositorio.RepositorioContasCorrente;
 // import com.googlecode.jmapper.JMapper;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/contas")
+@AllArgsConstructor
 public class ContaCorrenteController {
 
-    @Autowired
+    
     private RepositorioContasCorrente repositorioContasCorrente;
 
     // @Autowired
@@ -43,7 +46,8 @@ public class ContaCorrenteController {
                 .buscar(banco, agencia, numero)
                 .orElse(new ContaCorrente());
 
-        return String.format("Banco: %s, Agência: %s, Conta: %s. Saldo: %s", banco, agencia, numero,
+                System.out.println("SALDO: " + contaCorrente.lerSaldo());
+        return String.format("Banco: %s, Agência: %s, Conta: %s Saldo: %s", banco, agencia, numero,
                 contaCorrente.lerSaldo());
     }
 
