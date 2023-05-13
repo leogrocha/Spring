@@ -1,7 +1,10 @@
 package com.alura.alurabank.controller;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,14 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alura.alurabank.controller.form.ContaCorrenteForm;
 // import com.alura.alurabank.controller.form.ContaCorrenteForm;
 import com.alura.alurabank.controller.form.CorrentistaForm;
 import com.alura.alurabank.dominio.ContaCorrente;
 import com.alura.alurabank.dominio.Correntista;
 import com.alura.alurabank.dominio.MovimentacaoDeConta;
 import com.alura.alurabank.repositorio.RepositorioContasCorrente;
-// import com.googlecode.jmapper.JMapper;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Path;
+import jakarta.validation.Validator;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -30,11 +36,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ContaCorrenteController {
 
-    
     private RepositorioContasCorrente repositorioContasCorrente;
 
     // @Autowired
     // private JMapper<ContaCorrente, ContaCorrenteForm> contaCorrenteMapper;
+
+    private Validator validator;
 
     @GetMapping
     public String consultarSaldo(
@@ -51,7 +58,13 @@ public class ContaCorrenteController {
     }
 
     @PostMapping
-    public ResponseEntity<ContaCorrente> criarNovaConta(@RequestBody CorrentistaForm correntistaForm) {
+    public ResponseEntity criarNovaConta(@RequestBody CorrentistaForm correntistaForm) {
+        Map<Path, String> violacoesToMap = validar(correntistaForm);
+        
+        if (!violacoesToMap.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(violacoesToMap);    
+        }        
+        
         Correntista correntista = correntistaForm.toCorrentista();
         String banco = "333";
         String agencia = "44444";
@@ -63,20 +76,35 @@ public class ContaCorrenteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(conta);
     }
 
+    private <T> Map<Path, String> validar(T form) {
+        Set<ConstraintViolation<T>> violacoes = validator.validate(form);
+
+        Map<Path, String> violacoesToMap = violacoes.stream()
+                .collect(Collectors.toMap(violacao -> violacao.getPropertyPath(), violacao -> violacao.getMessage()));
+        return violacoesToMap;
+    }
+
     @DeleteMapping
-    public String fecharConta(@RequestBody ContaCorrente contaCorrente) {
-        
-        Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(contaCorrente.getBanco(),
-        contaCorrente.getAgencia(),
-        contaCorrente.getNumero());
-        if (opContaCorrente.isEmpty()) {
-            return "Conta corrente não existe";
+    public ResponseEntity fecharConta(@RequestBody ContaCorrenteForm contaCorrenteForm) {
+        Map<Path, String> violacoesToMap = validar(contaCorrenteForm);
+
+        // Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(contaCorrente.getBanco(),
+        //         contaCorrente.getAgencia(),
+        //         contaCorrente.getNumero());
+        // if (opContaCorrente.isEmpty()) {
+        //     return ResponseEntity.ok("Conta corrente não existe");
+        // }
+
+        if (!violacoesToMap.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(violacoesToMap);
         }
 
-        // ContaCorrente conta = contaCorrenteMapper.getDestination(contaCorrenteForm);
+        ContaCorrente contaCorrente = contaCorrenteForm.toContaCorrente();
         
+        // ContaCorrente conta = contaCorrenteMapper.getDestination(contaCorrenteForm);
+
         repositorioContasCorrente.fechar(contaCorrente);
-        return "Conta fechada com sucesso";
+        return ResponseEntity.ok("Conta fechada com sucesso");
     }
 
     @PutMapping

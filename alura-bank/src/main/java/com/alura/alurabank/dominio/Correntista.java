@@ -4,6 +4,11 @@ package com.alura.alurabank.dominio;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class Correntista {
     
     @JsonProperty
@@ -13,10 +18,4 @@ public class Correntista {
     private String nome;
 
     // private LocalDate dataDeEntrada = LocalDate.now();
-
-    public Correntista(String cpf, String nome) {
-        this.cpf = cpf;
-        this.nome = nome;
-    }
-
 }
