@@ -2,14 +2,14 @@ package com.alura.alurabank.controller;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
+// import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 // import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+// import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+// import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alura.alurabank.controller.form.ContaCorrenteForm;
 // import com.alura.alurabank.controller.form.ContaCorrenteForm;
-import com.alura.alurabank.controller.form.CorrentistaForm;
+// import com.alura.alurabank.controller.form.ContaCorrenteForm;
+// import com.alura.alurabank.controller.form.CorrentistaForm;
 import com.alura.alurabank.dominio.ContaCorrente;
-import com.alura.alurabank.dominio.Correntista;
+// import com.alura.alurabank.dominio.Correntista;
 import com.alura.alurabank.dominio.MovimentacaoDeConta;
 import com.alura.alurabank.repositorio.RepositorioContasCorrente;
 
@@ -58,23 +58,23 @@ public class ContaCorrenteController {
     }
 
     @PostMapping
-    public ResponseEntity criarNovaConta(@RequestBody CorrentistaForm correntistaForm) {
-        Map<Path, String> violacoesToMap = validar(correntistaForm);
+    // public ResponseEntity criarNovaConta(@RequestBody CorrentistaForm correntistaForm) {
+    //     Map<Path, String> violacoesToMap = validar(correntistaForm);
         
-        if (!violacoesToMap.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(violacoesToMap);    
-        }        
+    //     if (!violacoesToMap.isEmpty()) {
+    //         return ResponseEntity.status(HttpStatus.CREATED).body(violacoesToMap);    
+    //     }        
         
-        Correntista correntista = correntistaForm.toCorrentista();
-        String banco = "333";
-        String agencia = "44444";
-        String numero = Integer.toString(new Random().nextInt(Integer.MAX_VALUE));
+    //     Correntista correntista = correntistaForm.toCorrentista();
+    //     String banco = "333";
+    //     String agencia = "44444";
+    //     String numero = Integer.toString(new Random().nextInt(Integer.MAX_VALUE));
 
-        ContaCorrente conta = new ContaCorrente(banco, agencia, numero, correntista);
-        repositorioContasCorrente.salvar(conta);
+    //     ContaCorrente conta = new ContaCorrente(banco, agencia, numero, correntista);
+    //     repositorioContasCorrente.salvar(conta);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(conta);
-    }
+    //     return ResponseEntity.status(HttpStatus.CREATED).body(conta);
+    // }
 
     private <T> Map<Path, String> validar(T form) {
         Set<ConstraintViolation<T>> violacoes = validator.validate(form);
@@ -84,28 +84,28 @@ public class ContaCorrenteController {
         return violacoesToMap;
     }
 
-    @DeleteMapping
-    public ResponseEntity fecharConta(@RequestBody ContaCorrenteForm contaCorrenteForm) {
-        Map<Path, String> violacoesToMap = validar(contaCorrenteForm);
+    // @DeleteMapping
+    // public ResponseEntity fecharConta(@RequestBody ContaCorrenteForm contaCorrenteForm) {
+    //     Map<Path, String> violacoesToMap = validar(contaCorrenteForm);
 
-        // Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(contaCorrente.getBanco(),
-        //         contaCorrente.getAgencia(),
-        //         contaCorrente.getNumero());
-        // if (opContaCorrente.isEmpty()) {
-        //     return ResponseEntity.ok("Conta corrente não existe");
-        // }
+    //     // Optional<ContaCorrente> opContaCorrente = repositorioContasCorrente.buscar(contaCorrente.getBanco(),
+    //     //         contaCorrente.getAgencia(),
+    //     //         contaCorrente.getNumero());
+    //     // if (opContaCorrente.isEmpty()) {
+    //     //     return ResponseEntity.ok("Conta corrente não existe");
+    //     // }
 
-        if (!violacoesToMap.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(violacoesToMap);
-        }
+    //     if (!violacoesToMap.isEmpty()) {
+    //         return ResponseEntity.status(HttpStatus.CREATED).body(violacoesToMap);
+    //     }
 
-        ContaCorrente contaCorrente = contaCorrenteForm.toContaCorrente();
+    //     ContaCorrente contaCorrente = contaCorrenteForm.toContaCorrente();
         
-        // ContaCorrente conta = contaCorrenteMapper.getDestination(contaCorrenteForm);
+    //     // ContaCorrente conta = contaCorrenteMapper.getDestination(contaCorrenteForm);
 
-        repositorioContasCorrente.fechar(contaCorrente);
-        return ResponseEntity.ok("Conta fechada com sucesso");
-    }
+    //     repositorioContasCorrente.fechar(contaCorrente);
+    //     return ResponseEntity.ok("Conta fechada com sucesso");
+    // }
 
     @PutMapping
     public ResponseEntity<String> movimentarConta(@RequestBody MovimentacaoDeConta movimentacaoDeConta) {

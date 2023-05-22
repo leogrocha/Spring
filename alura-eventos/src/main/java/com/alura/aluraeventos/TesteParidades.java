@@ -1,10 +1,8 @@
 package com.alura.aluraeventos;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 import com.alura.aluraeventos.config.jsonParidades;
-import com.alura.aluraeventos.dominio.Composicao;
 import com.alura.aluraeventos.dominio.ListaParidades;
 import com.alura.aluraeventos.dominio.Paridades;
 import com.alura.aluraeventos.dominio.Producoes;
