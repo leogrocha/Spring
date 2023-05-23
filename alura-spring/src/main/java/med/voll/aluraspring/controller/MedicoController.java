@@ -1,6 +1,9 @@
 package med.voll.aluraspring.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import med.voll.aluraspring.medico.DadosCadastroMedico;
+import med.voll.aluraspring.medico.DadosListagemMedico;
 import med.voll.aluraspring.medico.Medico;
 import med.voll.aluraspring.medico.MedicoRepository;
 
@@ -23,6 +27,11 @@ public class MedicoController {
     @Transactional
     public void cadastar(@RequestBody @Valid DadosCadastroMedico dados) {
         repository.save(new Medico(dados));
+    }
+
+    @GetMapping
+    public List<DadosListagemMedico> listar() {
+        return repository.findAll().stream().map(DadosListagemMedico::new).toList();
     }
 
 
