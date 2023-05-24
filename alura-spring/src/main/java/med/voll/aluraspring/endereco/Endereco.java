@@ -28,4 +28,14 @@ public class Endereco {
     private String complemento;
     private String cidade;
     private String uf;
+
+    public void atualizarInformacoes(DadosEndereco dados) {
+        this.logradouro = dados.logradouro() == null ? getLogradouro() : dados.logradouro();
+        this.bairro = dados.bairro() == null ? getBairro() : dados.bairro();
+        this.cep = dados.cep() == null ? getCep() : dados.cep();
+        this.numero = dados.numero() == null ? getNumero() : dados.numero();
+        this.complemento = dados.complemento() == null ? getComplemento() : dados.complemento();
+        this.cidade = dados.cidade() == null ? getCidade() : dados.cidade();
+        this.uf = dados.uf() == null ? getUf() : dados.uf();
+    }
 }
